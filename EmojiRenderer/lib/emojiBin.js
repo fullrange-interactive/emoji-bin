@@ -905,8 +905,8 @@ var emojisTextures = [
                 restitution: 1,
                 friction: 0,
                 render:{
-                  fillStyle:'white',
-                  strokeStyle:'white',
+                  fillStyle:'black',
+                  strokeStyle:'black',
                   lineWidth:0
                 },
                 collisionFilter:{
