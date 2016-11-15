@@ -1,0 +1,26 @@
+{
+  "name": "Emoji bin",
+  "homepage": "",
+  "authors": [
+    "Kevin <kevin@henzer.ch>"
+  ],
+  "description": "",
+  "main": "index.html",
+  "license": "GPLv3",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "bower": "*",
+    "install": "^1.0.4",
+    "Matter": "matter-js#^0.10.0"
+  },
+  "devDependencies": {
+    "livereload-js": "^2.2.1"
+  }
+}

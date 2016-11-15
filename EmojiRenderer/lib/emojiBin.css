@@ -1,0 +1,32 @@
+canvas
+{
+	border:1px solid black;
+	background: black;
+} 
+
+body,html
+{
+	margin:0;
+	padding:0;
+	overflow: hidden;
+	background: black;	
+}
+
+#world
+{
+	position: absolute;
+	top:0;
+	left:0;
+	height:100%;
+	width:100%;
+	background-color:transparent;
+}
+
+#background
+{
+	position: absolute;
+	top:0;
+	left:0;
+	height:100%;
+	width:100%;
+}
