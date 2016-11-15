@@ -25545,7 +25545,7 @@ var emojisTextures = [
   var decreaseFactor = 1/2000;
   var minSizeBeforeDispose = 100;
 
-  var baseSize = 24;
+  var baseSize = 32;
   var textureSize = 160;
 
   var sizeX = $(window).width();
