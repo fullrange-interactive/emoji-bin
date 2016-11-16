@@ -753,7 +753,7 @@ var emojisTextures = [
 "images/Selected/emoji-750.png",
 "images/Selected/emoji-751.png",
 "images/Selected/emoji-752.png",
-"images/Selected/emoji-753.png"]
+"images/Selected/emoji-753.png"
 
 
 // 
@@ -825,8 +825,8 @@ var emojisTextures = [
   for(var k=0;k<bodies.length;k++)
   {
     bodies[k].collisionFilter.group = 0;
-    bodies[k].collisionFilter.category = 0b0001;
-    bodies[k].collisionFilter.mask = 0b0011; // Dont collide with particles    
+    bodies[k].collisionFilter.category = 0x01;
+    bodies[k].collisionFilter.mask = 0x03; // Dont collide with particles    
 
     Matter.Composite.add(boundaries,bodies[k]);
   }
@@ -864,8 +864,8 @@ var emojisTextures = [
     Matter.Body.setAngularVelocity(emoji, Common.random(-10,10)/40);
     
     emoji.collisionFilter.group = 0;
-    emoji.collisionFilter.category = 0b0010;
-    emoji.collisionFilter.mask = 0b0111; // Collie with everything    
+    emoji.collisionFilter.category = 0x02;
+    emoji.collisionFilter.mask = 0x07; // Collie with everything    
 
     Matter.Composite.add(emojis,emoji);
 
@@ -912,8 +912,8 @@ var emojisTextures = [
                 },
                 collisionFilter:{
                   group:0,
-                  category:0b0100,
-                  mask:0b0110
+                  category:0x04,
+                  mask:0x06
                 }
             });
 
