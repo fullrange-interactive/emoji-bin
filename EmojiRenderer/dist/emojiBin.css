@@ -3,17 +3,20 @@ body,html
   margin:0;
   padding:0;
   overflow: hidden;
-  background:url("../background.png");
   background-size:cover;
+  overflow:hidden;
 }
 
+body
+{
+  background:url("../background.png");
+}
+ 
 #world
 {
   position: absolute;
   top:0;
   left:0;
-  height:100%;
-  width:100%;
   background-color:transparent;
 }
 
@@ -27,6 +30,4 @@ body,html
   position: absolute;
   top:0;
   left:0;
-  height:100%;
-  width:100%;
 }

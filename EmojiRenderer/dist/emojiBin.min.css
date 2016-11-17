@@ -1,1 +1,1 @@
-#background,#world{position:absolute;top:0;left:0;height:100%;width:100%}body,html{margin:0;padding:0;overflow:hidden;background:url(../background.png);background-size:cover}#world{background-color:transparent}#world canvas{filter:drop-shadow(3px 3px 3px #222)}
+#background,#world{position:absolute;top:0;left:0}body,html{margin:0;padding:0;background-size:cover;overflow:hidden}body{background:url(../background.png)}#world{background-color:transparent}#world canvas{filter:drop-shadow(3px 3px 3px #222)}

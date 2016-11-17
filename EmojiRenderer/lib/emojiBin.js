@@ -1,8 +1,13 @@
 $("document").ready(function() {
 
-  var maxEmojis = 30;
+  var ratio = 8192/838;
+
+  var maxEmojis = 60;
   var decreaseFactor = 1/2000;
   var minSizeBeforeDispose = 100;
+
+  var minSizeMult10 = 5;
+  var maxSizeMult10 = 15;
 
   var baseSize = 32;
   var textureSize = 160;
@@ -13,13 +18,13 @@ $("document").ready(function() {
 
   var speedScale = 1;
   var spinScale = 1;
-
+  
   var floodDelay = 300;
   var lastInteraction = new Date();
   var lastAdd = new Date();
 
   var sizeX = $(window).width();
-  var sizeY = $(window).height();
+  var sizeY = sizeX/ratio;
 
   console.log("Creating a "+sizeX+" x "+sizeY+" simulation");
 
@@ -28,6 +33,10 @@ $("document").ready(function() {
   $worldSelector.css({
     width:sizeX,
     height:sizeY
+  });
+
+  $("body").css({
+    height:sizeY+"px"
   });
 
   var World = Matter.World;
@@ -109,16 +118,16 @@ $("document").ready(function() {
     lastAdd = new Date();
 
     xPosNorm = clipRange(xPosNorm,0,1);
-    xSpeed = clipRange(xSpeed,-15,15);
-    ySpeed = clipRange(ySpeed,-15,15);
+    xSpeed = clipRange(xSpeed,-30,30);
+    ySpeed = clipRange(ySpeed,-30,30);
     spin = clipRange(spin,-0.5,0.5);
     spriteIndex = clipRange(parseInt(spriteIndex),0,emojisTextures.length-1);
 
-    var sizeMultiplier = Common.random(30,40)/10; 
+    var sizeMultiplier = Common.random(minSizeMult10,maxSizeMult10)/10; 
     var radius = sizeMultiplier*baseSize/2;
 
-    var posX = sizeX*xPosNorm + offset + (baseSize*sizeMultiplier)/ 2; // (sizeX-2*offset)/2-baseSize*sizeMultiplier;
-    var posY = sizeY - offset - (baseSize*sizeMultiplier) / 2; //baseSize*sizeMultiplier*2-offset;
+    var posX = (sizeX-2*offset-(baseSize*sizeMultiplier)/ 2) *xPosNorm + offset + (baseSize*sizeMultiplier)/ 2; // (sizeX-2*offset)/2-baseSize*sizeMultiplier;
+    var posY = sizeY + offset + (baseSize*sizeMultiplier) / 2; //baseSize*sizeMultiplier*2-offset;
 
     var emoji = Bodies.circle(
       posX,
@@ -146,7 +155,12 @@ $("document").ready(function() {
     
     emoji.collisionFilter.group = 0;
     emoji.collisionFilter.category = 0x02;
-    emoji.collisionFilter.mask = 0x07; // Collie with everything   
+    emoji.collisionFilter.mask = 0x02;
+
+    window.setTimeout(function(){
+      emoji.collisionFilter.mask = 0x07; // Collie with everything   
+    },60);
+
 
     console.log("[addEmoji] Pos: ["+posX+":"+posY+"] Speed: ["+(xSpeed*speedScale)+":"+(ySpeed*speedScale)+"] Spin: "+spin*spinScale); 
 
@@ -159,8 +173,8 @@ $("document").ready(function() {
     {
       addEmoji(
         Math.random(),
-        Math.random()*100-50,
-        Math.random()*50+10,
+        (Math.random()*40-20)+10,
+        -(Math.random()*20+10),
         Math.random()-0.5,
         randomIntFromInterval(0,emojisTextures.length-1),
         false);
@@ -255,8 +269,8 @@ $("document").ready(function() {
       lastInteraction = new Date();
       addEmoji(
         parsedMessage.data.xPos,
-        parsedMessage.data.xSpeed,
-        parsedMessage.data.ySpeed,
+        parsedMessage.data.xSpeed/12,
+        parsedMessage.data.ySpeed/12,
         parsedMessage.data.spin,
         parsedMessage.data.spriteIndex,
         true);
