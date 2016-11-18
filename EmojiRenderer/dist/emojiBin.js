@@ -1,4 +1,4 @@
-/*! SpecialSnowflake - v1.0.0 - 2016-11-17
+/*! SpecialSnowflake - v1.0.0 - 2016-11-18
 * http://pimp-my-wall.ch
 * Copyright (c) 2016 ; Licensed GPL-3.0 */
 /**
