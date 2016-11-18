@@ -24785,7 +24785,7 @@ $("document").ready(function() {
 
   var ratio = 8192/838;
 
-  var maxEmojis = 60;
+  var maxEmojis = 180;
   var decreaseFactor = 1/2000;
   var minSizeBeforeDispose = 100;
 
