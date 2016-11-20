@@ -1,4 +1,4 @@
-/*! SpecialSnowflake - v1.0.0 - 2016-11-18
+/*! SpecialSnowflake - v1.0.0 - 2016-11-20
 * http://pimp-my-wall.ch
 * Copyright (c) 2016 ; Licensed GPL-3.0 */
 /**
@@ -24785,7 +24785,7 @@ $("document").ready(function() {
 
   var ratio = 8192/838;
 
-  var maxEmojis = 180;
+  var maxEmojis = 120;
   var decreaseFactor = 1/2000;
   var minSizeBeforeDispose = 100;
 
@@ -24954,10 +24954,16 @@ $("document").ready(function() {
 
     if(((new Date()).getTime()-lastInteraction.getTime()) > autoEmojiTimeout*1000)
     {
+      var speedXrand = (Math.random()*40-20);
+      speedXrand += speedXrand < 0 ? -10:10;
+
+      var speedYrand = -(Math.random()*20+10);
+      speedYrand += speedYrand < 0 ? -10:10;
+
       addEmoji(
         Math.random(),
-        (Math.random()*40-20)+10,
-        -(Math.random()*20+10),
+        speedXrand,
+        speedYrand,
         Math.random()-0.5,
         randomIntFromInterval(0,emojisTextures.length-1),
         false);
