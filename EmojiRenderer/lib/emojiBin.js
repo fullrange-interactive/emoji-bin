@@ -6,8 +6,8 @@ $("document").ready(function() {
   var decreaseFactor = 1/2000;
   var minSizeBeforeDispose = 100;
 
-  var minSizeMult10 = 10;
-  var maxSizeMult10 = 25;
+  var minSizeMult10 = 7;
+  var maxSizeMult10 = 15;
 
   var baseSize = 32;
   var textureSize = 160;
