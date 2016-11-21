@@ -10,7 +10,8 @@ body,html
 
 body
 {
-  background:url("../background.png");
+  /*background:url("../background.png");*/
+  background-color: black;
 }
  
 #world
@@ -23,7 +24,7 @@ body
 
 #world canvas
 {
-  filter:drop-shadow(3px 3px 3px #222);   
+  /*filter:drop-shadow(3px 3px 3px #222);   */
 }
 
 #background
