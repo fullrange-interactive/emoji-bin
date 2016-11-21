@@ -1,6 +1,6 @@
 $("document").ready(function() {
 
-  var ratio = 8192/838;
+  var ratio = 4000/450;
 
   var maxEmojis = 120;
   var decreaseFactor = 1/2000;
