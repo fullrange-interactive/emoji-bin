@@ -3,8 +3,8 @@ $("document").ready(function() {
   var ratio = 4000/450;
 
   var maxEmojis = 80;
-  var decreaseFactorMax = 1000;
-  var decreaseFactorMin = 8000;
+  var decreaseFactorMax = 8000;
+  var decreaseFactorMin = 1000;
   var minSizeBeforeDispose = 100;
 
   var minSizeMult10 = 20;
