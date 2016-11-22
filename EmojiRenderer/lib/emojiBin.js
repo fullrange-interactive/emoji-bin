@@ -7,7 +7,7 @@ $("document").ready(function() {
   var decreaseFactorMin = 1000;
   var decreaseFactor = 2000;
 
-  var minSizeBeforeDispose = 250;
+  var minSizeBeforeDispose = 750;
 
   var minSizeMult10 = 20;
   var maxSizeMult10 = 40;
@@ -192,7 +192,7 @@ $("document").ready(function() {
         speedXrand,
         speedYrand,
         Math.random()-0.5,
-        randomIntFromInterval(0,emojisTextures.length-1),
+        randomIntFromInterval(0,90),
         false);
 
     }
