@@ -2,7 +2,7 @@ $("document").ready(function() {
 
   var ratio = 4000/450;
 
-  var maxEmojis = 120;
+  var maxEmojis = 40;
   var decreaseFactor = 1/2000;
   var minSizeBeforeDispose = 100;
 
@@ -226,15 +226,15 @@ $("document").ready(function() {
             var fragment = Bodies.circle(
               bodies[i].position.x,
               bodies[i].position.y,
-              1,
+              10,
               {
                 density: 0.1,
                 frictionAir: 0,
                 restitution: 1,
                 friction: 0,
                 render:{
-                  fillStyle:'black',
-                  strokeStyle:'black',
+                  fillStyle:'white',
+                  strokeStyle:'white',
                   lineWidth:0
                 },
                 collisionFilter:{
