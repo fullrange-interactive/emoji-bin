@@ -9,7 +9,7 @@ $("document").ready(function() {
   var minSizeMult10 = 7;
   var maxSizeMult10 = 15;
 
-  var baseSize = 32;
+  var baseSize = 48;
   var textureSize = 160;
 
   var autoEmojiTimeout = 10;
