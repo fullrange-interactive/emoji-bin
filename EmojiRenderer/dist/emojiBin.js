@@ -24789,8 +24789,8 @@ $("document").ready(function() {
   var decreaseFactor = 1/2000;
   var minSizeBeforeDispose = 100;
 
-  var minSizeMult10 = 7;
-  var maxSizeMult10 = 15;
+  var minSizeMult10 = 20;
+  var maxSizeMult10 = 40;
 
   var baseSize = 48;
   var textureSize = 160;
