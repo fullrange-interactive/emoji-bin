@@ -1,4 +1,4 @@
-/*! SpecialSnowflake - v1.0.0 - 2016-11-21
+/*! SpecialSnowflake - v1.0.0 - 2016-11-22
 * http://pimp-my-wall.ch
 * Copyright (c) 2016 ; Licensed GPL-3.0 */
 /**
@@ -24809,6 +24809,9 @@ $("document").ready(function() {
   var sizeX = $(window).width();
   var sizeY = sizeX/ratio;
 
+  var boundariesXrel = [3159/8000,4885/8000];
+  var boundariesWidth = 20;
+
   console.log("Creating a "+sizeX+" x "+sizeY+" simulation");
 
   var $worldSelector = $("#world");
@@ -24860,10 +24863,14 @@ $("document").ready(function() {
   World.add(world, emojis);
   World.add(world, fragments);
 
-  var bodies = [Bodies.rectangle(sizeX/2, -offset, sizeX + 2 * offset, 50, { render:{visible:false}, isStatic: true,restitution: 0.3 }),
-    Bodies.rectangle(sizeX/2, sizeY + offset, sizeX + 2 * offset, 50, { render:{visible:false}, isStatic: true,restitution: 0.3 }),
-    Bodies.rectangle(sizeX + offset, sizeY/2, 50, sizeY + 2 * offset, { render:{visible:false}, isStatic: true,restitution: 0.3 }),
-    Bodies.rectangle(-offset, sizeY/2, 50, sizeY + 2 * offset, { render:{visible:false}, isStatic: true,restitution: 0.3 })];
+  var bodies = [
+    Bodies.rectangle(sizeX/2,         -offset,          sizeX + 2 * offset,   50, { render:{visible:false}, isStatic: true,restitution: 0.3 }),
+    Bodies.rectangle(sizeX/2,         sizeY + offset,   sizeX + 2 * offset,   50, { render:{visible:false}, isStatic: true,restitution: 0.3 }),
+    Bodies.rectangle(sizeX + offset,  sizeY/2,          50,                   sizeY + 2 * offset, { render:{visible:false}, isStatic: true,restitution: 0.3 }),
+    Bodies.rectangle(-offset,         sizeY/2,          50,                   sizeY + 2 * offset, { render:{visible:false}, isStatic: true,restitution: 0.3 }),
+    
+    Bodies.rectangle(sizeX*boundariesXrel[0] + boundariesWidth/2,sizeY/2,boundariesWidth,sizeY + 2 * offset, { render:{visible:false}, isStatic: true,restitution: 0.3 }),
+    Bodies.rectangle(sizeX*boundariesXrel[1] + boundariesWidth/2,sizeY/2,boundariesWidth,sizeY + 2 * offset, { render:{visible:false}, isStatic: true,restitution: 0.3 })];
 
   for(var k=0;k<bodies.length;k++)
   {
