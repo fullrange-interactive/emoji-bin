@@ -2,8 +2,9 @@ $("document").ready(function() {
 
   var ratio = 4000/450;
 
-  var maxEmojis = 40;
-  var decreaseFactor = 1/2000;
+  var maxEmojis = 80;
+  var decreaseFactorMax = 1000;
+  var decreaseFactorMin = 8000;
   var minSizeBeforeDispose = 100;
 
   var minSizeMult10 = 20;
@@ -209,7 +210,7 @@ $("document").ready(function() {
     {
       if(bodies.length > maxEmojis)
       {        
-        var fade = 1-((bodies.length - maxEmojis)*decreaseFactor);
+        var fade = 1-((bodies.length - maxEmojis)*1/Common.randomIntFromInterval(decreaseFactorMin,decreaseFactorMax));
 
         Matter.Body.scale(bodies[i], fade, fade);
         bodies[i].render.sprite.xScale *= fade;
