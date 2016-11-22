@@ -2,12 +2,12 @@ $("document").ready(function() {
 
   var ratio = 4000/450;
 
-  var maxEmojis = 40;
+  var maxEmojis = 50;
   var decreaseFactorMax = 8000;
   var decreaseFactorMin = 1000;
   var decreaseFactor = 2000;
 
-  var minSizeBeforeDispose = 100;
+  var minSizeBeforeDispose = 250;
 
   var minSizeMult10 = 20;
   var maxSizeMult10 = 40;
