@@ -1,15 +1,16 @@
 $("document").ready(function() {
 
-  var ratio = 4000/450;
+  var ratio = 5000/923;
+  var boundariesXrel = [3221/5000,4885/8000];
 
-  var maxEmojis = 50;
+  var maxEmojis = 30;
   var decreaseFactorMax = 8000;
   var decreaseFactorMin = 1000;
   var decreaseFactor = 2000;
 
-  var minSizeBeforeDispose = 750;
+  var minSizeBeforeDispose = 1500;
 
-  var minSizeMult10 = 20;
+  var minSizeMult10 = 30;
   var maxSizeMult10 = 40;
 
   var baseSize = 48;
@@ -29,7 +30,6 @@ $("document").ready(function() {
   var sizeX = $(window).width();
   var sizeY = sizeX/ratio;
 
-  var boundariesXrel = [3159/8000,4885/8000];
   var boundariesWidth = 20;
 
   console.log("Creating a "+sizeX+" x "+sizeY+" simulation");
@@ -75,22 +75,24 @@ $("document").ready(function() {
   var mouseConstraint = MouseConstraint.create(engine);
   World.add(world, mouseConstraint);    
  
-  var boundaries = Matter.Composite.create();
+  var boundaries = Matter.Composite.create(); 
+  var entry = Matter.Composite.create();  
   var emojis = Matter.Composite.create();
   var fragments = Matter.Composite.create();
 
   World.add(world, boundaries);
+  World.add(world, entry);  
   World.add(world, emojis);
   World.add(world, fragments);
 
   var bodies = [
     Bodies.rectangle(sizeX/2,         -offset,          sizeX + 2 * offset,   50, { render:{visible:false}, isStatic: true,restitution: 0.3 }),
-    Bodies.rectangle(sizeX/2,         sizeY + offset,   sizeX + 2 * offset,   50, { render:{visible:false}, isStatic: true,restitution: 0.3 }),
+    // 
     Bodies.rectangle(sizeX + offset,  sizeY/2,          50,                   sizeY + 2 * offset, { render:{visible:false}, isStatic: true,restitution: 0.3 }),
     Bodies.rectangle(-offset,         sizeY/2,          50,                   sizeY + 2 * offset, { render:{visible:false}, isStatic: true,restitution: 0.3 }),
     
-    Bodies.rectangle(sizeX*boundariesXrel[0] + boundariesWidth/2,sizeY/2,boundariesWidth,sizeY + 2 * offset, { render:{visible:false}, isStatic: true,restitution: 0.3 }),
-    Bodies.rectangle(sizeX*boundariesXrel[1] + boundariesWidth/2,sizeY/2,boundariesWidth,sizeY + 2 * offset, { render:{visible:false}, isStatic: true,restitution: 0.3 })];
+    Bodies.rectangle(sizeX*boundariesXrel[0] + boundariesWidth/2,sizeY/2,boundariesWidth,sizeY + 2 * offset, { render:{visible:false}, isStatic: true,restitution: 0.3 })];
+    // Bodies.rectangle(sizeX*boundariesXrel[1] + boundariesWidth/2,sizeY/2,boundariesWidth,sizeY + 2 * offset, { render:{visible:false}, isStatic: true,restitution: 0.3 })];
 
   for(var k=0;k<bodies.length;k++)
   {
@@ -100,6 +102,13 @@ $("document").ready(function() {
 
     Matter.Composite.add(boundaries,bodies[k]);
   }
+
+  var bottomEntry = Bodies.rectangle(sizeX/2,sizeY + offset,sizeX + 2 * offset,50,{render:{visible:false}, isStatic: true,restitution: 0.3 });
+  bottomEntry.collisionFilter.group = 0;
+  bottomEntry.collisionFilter.category = 0x04;
+  bottomEntry.collisionFilter.mask = 0x03; // Dont collide with particles    
+
+  Matter.Composite.add(entry,bottomEntry);
 
   Engine.run(engine);
 
@@ -165,11 +174,11 @@ $("document").ready(function() {
     
     emoji.collisionFilter.group = 0;
     emoji.collisionFilter.category = 0x02;
-    emoji.collisionFilter.mask = 0x02;
+    emoji.collisionFilter.mask = 0x03; // Collide with other emojis and walls  
 
     window.setTimeout(function(){
-      emoji.collisionFilter.mask = 0x07; // Collie with everything   
-    },60);
+      emoji.collisionFilter.mask = 0x0F; // Collide with everything   
+    },100);
 
 
     console.log("[addEmoji] Pos: ["+posX+":"+posY+"] Speed: ["+(xSpeed*speedScale)+":"+(ySpeed*speedScale)+"] Spin: "+spin*spinScale); 
@@ -184,7 +193,7 @@ $("document").ready(function() {
       var speedXrand = (Math.random()*40-20);
       speedXrand += speedXrand < 0 ? -10:10;
 
-      var speedYrand = -(Math.random()*20+10);
+      var speedYrand = -(Math.random()*20+1);
       speedYrand += speedYrand < 0 ? -10:10;
 
       addEmoji(
@@ -212,7 +221,7 @@ $("document").ready(function() {
     {
       if(bodies.length > maxEmojis)
       {        
-        var fade = 1-((bodies.length - maxEmojis)*1/decreaseFactor);
+        var fade = 1-((bodies.length - maxEmojis)*1/randomIntFromInterval(decreaseFactorMin,decreaseFactorMax));
 
         Matter.Body.scale(bodies[i], fade, fade);
         bodies[i].render.sprite.xScale *= fade;
