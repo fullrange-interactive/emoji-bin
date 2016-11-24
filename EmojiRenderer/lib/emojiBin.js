@@ -25,7 +25,9 @@ $("document").ready(function() {
   
   var floodDelay = 300;
   var lastInteraction = new Date();
-  var lastAdd = new Date();
+
+  var lastAdd = {};
+  var floodTimeoutAdd = 1000;
 
   var sizeX = $(window).width();
   var sizeY = sizeX/ratio;
@@ -129,12 +131,14 @@ $("document").ready(function() {
     return Math.floor(Math.random()*(max-min+1)+min);
   }
   
-  var addEmoji = function(xPosNorm,xSpeed,ySpeed,spin,spriteIndex,floodProtection){
+  var addEmoji = function(userId,xPosNorm,xSpeed,ySpeed,spin,spriteIndex,floodProtect){
 
-    if(floodProtection && ((new Date()).getTime() - lastAdd.getTime()) < floodDelay )
+    var now = new Date();
+
+    if(floodProtect && userId in lastAdd && (now.getTime()-lastAdd[userId].getTime() < floodTimeoutAdd))
       return;
 
-    lastAdd = new Date();
+    lastAdd[userId] = now;      
 
     xPosNorm = clipRange(xPosNorm,0,1);
     xSpeed = clipRange(xSpeed,-30,30);
@@ -146,7 +150,7 @@ $("document").ready(function() {
     var radius = sizeMultiplier*baseSize/2;
 
     var posX = (sizeX-2*offset-(baseSize*sizeMultiplier)/ 2) *xPosNorm + offset + (baseSize*sizeMultiplier)/ 2; // (sizeX-2*offset)/2-baseSize*sizeMultiplier;
-    var posY = sizeY + offset + (baseSize*sizeMultiplier) / 2; //baseSize*sizeMultiplier*2-offset;
+    var posY = sizeY + offset; //baseSize*sizeMultiplier*2-offset;
 
     var emoji = Bodies.circle(
       posX,
@@ -178,7 +182,7 @@ $("document").ready(function() {
 
     window.setTimeout(function(){
       emoji.collisionFilter.mask = 0x0F; // Collide with everything   
-    },100);
+    },50);
 
 
     console.log("[addEmoji] Pos: ["+posX+":"+posY+"] Speed: ["+(xSpeed*speedScale)+":"+(ySpeed*speedScale)+"] Spin: "+spin*spinScale); 
@@ -197,6 +201,7 @@ $("document").ready(function() {
       speedYrand += speedYrand < 0 ? -10:10;
 
       addEmoji(
+        0,
         Math.random(),
         speedXrand,
         speedYrand,
@@ -293,6 +298,7 @@ $("document").ready(function() {
     if (parsedMessage.type == "addEmoji") {
       lastInteraction = new Date();
       addEmoji(
+        parsedMessage.data.userId,
         parsedMessage.data.xPos,
         parsedMessage.data.xSpeed/12,
         parsedMessage.data.ySpeed/12,
