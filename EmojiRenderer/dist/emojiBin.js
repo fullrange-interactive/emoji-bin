@@ -1,6 +1,6 @@
-/*! SpecialSnowflake - v1.0.0 - 2016-11-24
+/*! SpecialSnowflake - v1.0.0 - 2017-05-24
 * http://pimp-my-wall.ch
-* Copyright (c) 2016 ; Licensed GPL-3.0 */
+* Copyright (c) 2017 ; Licensed GPL-3.0 */
 /**
  * The MIT License (MIT)
  * 
@@ -24796,7 +24796,7 @@ $("document").ready(function() {
   var minSizeMult10 = 30;
   var maxSizeMult10 = 40;
 
-  var baseSize = 48;
+  var baseSize = 24;
   var textureSize = 160;
 
   var autoEmojiTimeout = 10;
@@ -24813,7 +24813,7 @@ $("document").ready(function() {
   var floodTimeoutAdd = 1000;
 
   var sizeX = $(window).width();
-  var sizeY = sizeX/ratio;
+  var sizeY = $(window).height();
 
   var boundariesWidth = 20;
 
@@ -24876,7 +24876,8 @@ $("document").ready(function() {
     Bodies.rectangle(sizeX + offset,  sizeY/2,          50,                   sizeY + 2 * offset, { render:{visible:false}, isStatic: true,restitution: 0.3 }),
     Bodies.rectangle(-offset,         sizeY/2,          50,                   sizeY + 2 * offset, { render:{visible:false}, isStatic: true,restitution: 0.3 }),
     
-    Bodies.rectangle(sizeX*boundariesXrel[0] + boundariesWidth/2,sizeY/2,boundariesWidth,sizeY + 2 * offset, { render:{visible:false}, isStatic: true,restitution: 0.3 })];
+    // Bodies.rectangle(sizeX*boundariesXrel[0] + boundariesWidth/2,sizeY/2,boundariesWidth,sizeY + 2 * offset, { render:{visible:true}, isStatic: true,restitution: 0.3 })
+  ];
     // Bodies.rectangle(sizeX*boundariesXrel[1] + boundariesWidth/2,sizeY/2,boundariesWidth,sizeY + 2 * offset, { render:{visible:false}, isStatic: true,restitution: 0.3 })];
 
   for(var k=0;k<bodies.length;k++)
@@ -25869,7 +25870,7 @@ var emojisTextures = [
 
 "use strict";
 
-var SECRET = "UEh9R5PmuAUeieEqz5pJdZupXKw7AimAvjcVsky7BeKguUtVmYGIsQ5BIYoP";
+var SECRET = "VxsAIa3PDSIga1PRJNLLeIWpd9jG6oFN26yhETADJhWDIEHmHTTSY1Jq0S44Qv8ITDZa3rPd6Ci8slfP";
 
 var Class = function() {
   this.initialize && this.initialize.apply(this, arguments);
@@ -25946,6 +25947,7 @@ var WebsocketConnection = Class.extend({
       this.client.send(JSON.stringify(message));
     }
   },
+  
   /**
    * Connects the websocket to the endpoint. 
    * 
@@ -26115,4 +26117,4 @@ var WebsocketConnection = Class.extend({
   getConnection: function() {
     return this.client;
   }
-}); 
+});

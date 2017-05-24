@@ -3,7 +3,7 @@
  */
 "use strict";
 
-var SECRET = "UEh9R5PmuAUeieEqz5pJdZupXKw7AimAvjcVsky7BeKguUtVmYGIsQ5BIYoP";
+var SECRET = "VxsAIa3PDSIga1PRJNLLeIWpd9jG6oFN26yhETADJhWDIEHmHTTSY1Jq0S44Qv8ITDZa3rPd6Ci8slfP";
 
 var Class = function() {
   this.initialize && this.initialize.apply(this, arguments);
@@ -80,6 +80,7 @@ var WebsocketConnection = Class.extend({
       this.client.send(JSON.stringify(message));
     }
   },
+  
   /**
    * Connects the websocket to the endpoint. 
    * 
@@ -249,4 +250,4 @@ var WebsocketConnection = Class.extend({
   getConnection: function() {
     return this.client;
   }
-}); 
+});
