@@ -31,8 +31,8 @@ $("document").ready(function() {
   var baseSize = 24;
   var textureSize = 160;
 
-  var autoEmojiTimeout = 1;
-  var autoEmojiInterval = 5000;
+  var autoEmojiTimeout = 10;
+  var autoEmojiInterval = 10000;
   var cleanupInterval = 60;
 
   var speedScale = 1;
