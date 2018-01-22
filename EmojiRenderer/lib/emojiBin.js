@@ -1,5 +1,20 @@
 $("document").ready(function() {
 
+  var sounds = [
+    // new Howl({src: ["sounds/boing.mp3"]}),
+    // new Howl({src: ["sounds/boing2.mp3"]}),
+    new Howl({src: ["sounds/boing3.mp3"]}),
+    new Howl({src: ["sounds/boing4.mp3"]}),
+    new Howl({src: ["sounds/boing5.mp3"]}),
+    // new Howl({src: ["sounds/boing6.mp3"]}),
+    new Howl({src: ["sounds/boing7.mp3"]}),
+    new Howl({src: ["sounds/boing8.mp3"]})
+  ];
+
+  var pop = new Howl({src: ["sounds/pop.mp3"]});
+
+  var speedSound = 10;
+
   var ratio = 5.79;
   var boundariesXrel = [0.6622,4885/8000];
 
@@ -16,8 +31,8 @@ $("document").ready(function() {
   var baseSize = 24;
   var textureSize = 160;
 
-  var autoEmojiTimeout = 10;
-  var autoEmojiInterval = 2000;
+  var autoEmojiTimeout = 1;
+  var autoEmojiInterval = 5000;
   var cleanupInterval = 60;
 
   var speedScale = 1;
@@ -29,14 +44,19 @@ $("document").ready(function() {
   var lastAdd = {};
   var floodTimeoutAdd = 1000;
 
+  var sizeRatio = 1127 /  839;
+
   var sizeX = $(window).width();
-  var sizeY = $(window).height();
+  var sizeY = sizeX / sizeRatio;
 
   var boundariesWidth = 20;
 
   console.log("Creating a "+sizeX+" x "+sizeY+" simulation");
 
   var $worldSelector = $("#world");
+
+  var SOUND_INTERVAL = 50;
+  var lastSound = new Date().getTime();
 
   $worldSelector.css({
     width:sizeX,
@@ -87,17 +107,35 @@ $("document").ready(function() {
   World.add(world, emojis);
   World.add(world, fragments);
 
+  var renderStuff = false;
+  var roofColor = "#000000";
+
   var bodies = [
     Bodies.rectangle(sizeX/2,         -offset,          sizeX + 2 * offset,   50, { render:{visible:false}, isStatic: true,restitution: 0.3 }),
     // 
     Bodies.rectangle(sizeX + offset,  sizeY/2,          50,                   sizeY + 2 * offset, { render:{visible:false}, isStatic: true,restitution: 0.3 }),
     Bodies.rectangle(-offset,         sizeY/2,          50,                   sizeY + 2 * offset, { render:{visible:false}, isStatic: true,restitution: 0.3 }),
     
+    // roof
+    Bodies.rectangle(0.04 * sizeX, 0.073 * sizeY, 0.16 * sizeX, 0.7 * sizeY, {angle: 0.97, render: {fillStyle: roofColor, lineWidth: 0, strokeStyle: "#000000", opacity: 1, visible: true}, isStatic: true, restitution: 0.3}),
+    Bodies.rectangle((1 - 0.04) * sizeX, 0.05 * sizeY, 0.16 * sizeX, 0.7 * sizeY, {angle: 3.14 - 0.94, render: {fillStyle: roofColor, lineWidth: 0, strokeStyle: "#000000", opacity: 1, visible: true}, isStatic: true, restitution: 0.3}),
+
+    // windows
+    Bodies.rectangle(0.485 * sizeX, 0.15 * sizeY, 0.03 * sizeX, 0.12 * sizeY, {render: {visible: renderStuff}, isStatic: true, restitution: 0.3}),
+
+    Bodies.rectangle(0.34 * sizeX, 0.48 * sizeY, 0.03 * sizeX, 0.12 * sizeY, {render: {visible: renderStuff}, isStatic: true, restitution: 0.3}),
+    Bodies.rectangle((1 - 0.405) * sizeX, 0.48 * sizeY, 0.03 * sizeX, 0.12 * sizeY, {render: {visible: renderStuff}, isStatic: true, restitution: 0.3}),
+
+    Bodies.rectangle(0.235 * sizeX, 0.802 * sizeY, 0.03 * sizeX, 0.12 * sizeY, {render: {visible: renderStuff}, isStatic: true, restitution: 0.3}),
+    Bodies.rectangle(0.50 * sizeX, 0.802 * sizeY, 0.03 * sizeX, 0.12 * sizeY, {render: {visible: renderStuff}, isStatic: true, restitution: 0.3}),
+    Bodies.rectangle((1 - 0.24) * sizeX, 0.802 * sizeY, 0.03 * sizeX, 0.12 * sizeY, {render: {visible: renderStuff}, isStatic: true, restitution: 0.3}),
+
     // Bodies.rectangle(sizeX*boundariesXrel[0] + boundariesWidth/2,sizeY/2,boundariesWidth,sizeY + 2 * offset, { render:{visible:true}, isStatic: true,restitution: 0.3 })
+
   ];
     // Bodies.rectangle(sizeX*boundariesXrel[1] + boundariesWidth/2,sizeY/2,boundariesWidth,sizeY + 2 * offset, { render:{visible:false}, isStatic: true,restitution: 0.3 })];
 
-  for(var k=0;k<bodies.length;k++)
+  for( var k = 0; k < bodies.length; k++ )
   {
     bodies[k].collisionFilter.group = 0;
     bodies[k].collisionFilter.category = 0x01;
@@ -114,6 +152,25 @@ $("document").ready(function() {
   Matter.Composite.add(entry,bottomEntry);
 
   Engine.run(engine);
+
+  Matter.Events.on(engine, 'collisionStart', function(e) {
+    var pairs = e.pairs;
+
+    // change object colours to show those starting a collision
+    for (var i = 0; i < pairs.length; i++) {
+        var pair = pairs[i];
+        if (pair.bodyA.speed > speedSound || pair.bodyB.speed > speedSound) {
+          var hoursNow = new Date().getHours();
+          if (hoursNow >= 10 && hoursNow < 22) {
+            if (new Date().getTime() - lastSound > SOUND_INTERVAL) {
+              sounds[Math.floor(Math.random() * sounds.length)].play();
+              lastSound = new Date().getTime();
+            }
+          }
+        }
+    }
+  });
+
 
   // Position normalized from 0 to 1, speed in px/sec, spin in rad/s
   // 
@@ -189,6 +246,7 @@ $("document").ready(function() {
     console.log("[addEmoji] Pos: ["+posX+":"+posY+"] Speed: ["+(xSpeed*speedScale)+":"+(ySpeed*speedScale)+"] Spin: "+spin*spinScale); 
 
     Matter.Composite.add(emojis,emoji);
+
   };
 
   window.setInterval(function(){
@@ -266,6 +324,14 @@ $("document").ready(function() {
             
             Matter.Composite.add(fragments,fragment);
           }
+
+          var hoursNow = new Date().getHours();
+          if (hoursNow >= 18 && hoursNow < 22) {
+            if (new Date().getTime() - lastSound > SOUND_INTERVAL) {
+              pop.play();
+              lastSound = new Date().getTime();
+            }
+          }
         }
       }
     }    
@@ -320,6 +386,62 @@ $("document").ready(function() {
       autoReconnect: true
     }
   );
+
+  var playNowBanner = null;
+  var playNowText = null;
+  function showPlayNow() {
+    console.log('play now');
+    if (!playNowBanner) {
+      playNowBanner = $('<div>').css({
+        background: 'linear-gradient(to bottom, rgba(252, 206, 2, 0.7), rgba(255, 164, 0, 0.7) 100%)',
+        height: '0px',
+        width: '100%',
+        zIndex: 20,
+        opacity: 1,
+        position: 'fixed',
+        transition: 'height 0.2s ease-out',
+        bottom: '26%',
+        left: 0,
+        overflow: 'hidden'
+      });
+      var txt = 'Starten Sie jetzt mit diesem Spiel! Klicken Sie einfach auf: www.pmwapp.ch mit Ihrem Smartphone. &mdash; Jouez avec cette oeuvre maintenant! Connectez-vous avec votre smartphone sur www.pmwapp.ch!';
+      playNowText = $('<div>');
+      playNowText.html(txt);
+      playNowText.css({
+        position: 'absolute',
+        left: '100%',
+        width: '100%',
+        whiteSpace: 'nowrap',
+        color: 'white',
+        fontSize: '50px',
+        lineHeight: '100px',
+        fontFamily: 'sans-serif',
+        'font-smooth': 'auto',
+        '-webkit-font-smoothing' : 'auto'
+      });
+      playNowBanner.append(playNowText);
+      $("body").append(playNowBanner);
+    }
+    setTimeout(function () {
+      playNowBanner.css({
+        height: '100px'
+      });
+      playNowText.animate({
+        left: '-500%'
+      }, 30000, 'linear', function () {
+        playNowBanner.css({
+          height: '0px'
+        })
+        playNowText.css({
+          left: '100%'
+        })
+      })
+    }, 100)
+  };
+
+  showPlayNow();
+
+  var playNowInterval = setInterval(showPlayNow, 1 * 40 * 1000);
 
 });
 
