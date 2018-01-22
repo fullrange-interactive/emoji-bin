@@ -161,7 +161,7 @@ $("document").ready(function() {
         var pair = pairs[i];
         if (pair.bodyA.speed > speedSound || pair.bodyB.speed > speedSound) {
           var hoursNow = new Date().getHours();
-          if (hoursNow >= 10 && hoursNow < 22) {
+          if (hoursNow >= 18 && hoursNow < 22) {
             if (new Date().getTime() - lastSound > SOUND_INTERVAL) {
               sounds[Math.floor(Math.random() * sounds.length)].play();
               lastSound = new Date().getTime();
